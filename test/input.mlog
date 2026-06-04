@@ -1,0 +1,47 @@
+# --- КОНФИГУРАЦИЯ ЖЕЛЕЗА ---
+#define REACTOR reactor1
+#define SCREEN message1
+
+# --- НАСТРОЙКИ БЕЗОПАСНОСТИ ---
+#define MIN_CRYO 10
+
+# --- ФУНКЦИОНАЛЬНЫЕ МАКРОСЫ С АРГУМЕНТАМИ ---
+# Чтение любого параметра с постройки
+#define GET_STAT(block, property, out_var) sensor out_var block property
+
+# Включение/выключение блока
+#define SET_STATUS(block, state) control enabled block state 0 0 0
+
+# Вывод аварийного сообщения (многострочный макрос)
+#define ALARM(text) print text \n printflush SCREEN
+
+main_loop:
+    # 1. Проверяем, есть ли вообще торий в реактора. Если он пуст — взрыв не грозит.
+    GET_STAT(REACTOR, @thorium, fuel)
+    jump skip_safety_check equal fuel 0
+
+    # 2. Если торий есть, проверяем уровень хладагента
+    GET_STAT(REACTOR, @cryofluid, cryo)
+    
+    # 3. Криогенки меньше нормы? Прыгаем в аварийный режим
+    jump panic_mode lessThan cryo MIN_CRYO
+
+skip_safety_check:
+    # Все хорошо: включаем реактор (или держим включенным) и выводим инфо
+    SET_STATUS(REACTOR, 1)
+    print "Система: СТАБИЛЬНО Хладагент: "
+    GET_STAT(REACTOR, @cryofluid, current_cryo)
+    print current_cryo
+    printflush SCREEN
+    jump main_loop always 0 0
+
+panic_mode:
+    # АВАРИЯ: моментально глушим реактор и выводим статус
+    SET_STATUS(REACTOR, 0)
+    ALARM("!!! КРИТИЧЕСКАЯ АВАРИЯ !!!\nНЕТ ХЛАДАГЕНТА.\nРеактор заглушен.")
+    
+    # Чтобы не нагружать процессор, проверяем хладагент снова. 
+    # Пока он не поднимется выше нормы, из цикла паники не выходим.
+    GET_STAT(REACTOR, @cryofluid, cryo_check)
+    jump main_loop greaterThan cryo_check MIN_CRYO
+    jump panic_mode always 0 0

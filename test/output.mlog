@@ -1,0 +1,16 @@
+sensor fuel reactor1 @thorium
+jump 4 equal fuel 0
+sensor cryo reactor1 @cryofluid
+jump 10 lessThan cryo 10
+control enabled reactor1 1 0 0 0
+print "Система: СТАБИЛЬНО Хладагент: "
+sensor current_cryo reactor1 @cryofluid
+print current_cryo
+printflush message1
+jump 0 always 0 0
+control enabled reactor1 0 0 0 0
+print "!!! КРИТИЧЕСКАЯ АВАРИЯ !!! НЕТ ХЛАДАГЕНТА. Реактор заглушен."
+printflush message1
+sensor cryo_check reactor1 @cryofluid
+jump 0 greaterThan cryo_check 10
+jump 10 always 0 0

@@ -1,0 +1,3 @@
+start:
+MSG()
+jump start always
