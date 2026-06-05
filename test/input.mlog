@@ -9,27 +9,27 @@
 main_loop:
     CHECK_CRYO(cryo_level)
     
-    jmpif(emergency_shutdown, lessThan, cryo_level, CRYO_SAFE_LEVEL)
+    jump emergency_shutdown lessThan cryo_level CRYO_SAFE_LEVEL
     
     SWITCH_REACTOR(1)
     
-    print "=== РЕАКТОР СТАБИЛЕН ===\n"
-    print "Хладагент: "
+    print "=== REACTOR STABLE ===\n"
+    print "Coolant: "
     print cryo_level
     print " ед.\n"
-    print "Статус: РАБОТА"
+    print "Status: OPERATIONAL"
     
     jump display_update always 0 0
 
 emergency_shutdown:
     SWITCH_REACTOR(0)
     
-    print "!!! ВНИМАНИЕ !!!\n"
-    print "КРИТИЧЕСКИЙ СБОЙ ОХЛАЖДЕНИЯ!\n"
-    print "Криогенка упала до: "
+    print "!!! WARNING !!!\n"
+    print "CRITICAL COOLING FAILURE!\n"
+    print "Cryogenic level dropped to: "
     print cryo_level
-    print "\nРЕАКТОР АВАРИЙНО ЗАГЛУШЕН!"
+    print "\nREACTOR SHUTDOWN INITIATED!"
 
 display_update:
     printflush SCREEN
-    jump main_loop always 0 0\
+    jump main_loop always 0 0

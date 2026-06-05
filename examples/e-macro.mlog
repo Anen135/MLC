@@ -12,16 +12,16 @@ start:
     
     CALC_SUM result val_a val_b
     
-    print "=== СУММАТОР ===\n"
-    print "Компонент A: "
+    print "=== SUM ===\n"
+    print "Component A: "
     print val_a
     print "\n"
     
-    print "Компонент B: "
+    print "Component B: "
     print val_b
     print "\n----------------\n"
     
-    print "Итого: "
+    print "Total: "
     print result
     
     printflush SCREEN

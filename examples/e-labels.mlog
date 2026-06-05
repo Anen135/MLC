@@ -5,20 +5,20 @@ main_loop:
     jump first_button equal s1 1
     jump second_button     equal s2 1
     
-    print "Система готова.\nНажмите любую кнопку."
+    print "System is ready.\nPress any button."
     jump Clear always 0 0
 
 first_button:
     jump both equal s2 1
-    print "Нажата кнопка [ 1 ]"
+    print "Pressed button [ 1 ]"
     jump Clear always 0 0
 
 second_button:
-    print "Нажата кнопка [ 2 ]"
+    print "Pressed button [ 2 ]"
     jump Clear always 0 0
 
 both:
-    print "ВНИМАНИЕ:\nАктивированы обе кнопки!"
+    print "WARNING:\nBoth buttons are activated!"
     jump Clear always 0 0
 
 Clear:

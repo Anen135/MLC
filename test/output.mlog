@@ -1,22 +1,22 @@
 sensor cryo_level reactor1 @cryofluid
 jump 11 lessThan cryo_level 12
 control enabled reactor1 1 0 0 0
-print "=== РЕАКТОР СТАБИЛЕН ===
+print "=== reactor1 STABLE ===
 "
-print "Хладагент: "
+print "Coolant: "
 print cryo_level
 print " ед.
 "
-print "Статус: РАБОТА"
+print "Status: OPERATIONAL"
 jump 20 always 0 0
 control enabled reactor1 0 0 0 0
-print "!!! ВНИМАНИЕ !!!
+print "!!! WARNING !!!
 "
-print "КРИТИЧЕСКИЙ СБОЙ ОХЛАЖДЕНИЯ!
+print "CRITICAL COOLING FAILURE!
 "
-print "Криогенка упала до: "
+print "Cryogenic level dropped to: "
 print cryo_level
 print "
-РЕАКТОР АВАРИЙНО ЗАГЛУШЕН!"
+REACTOR SHUTDOWN INITIATED!"
 printflush message1
 jump 0 always 0 0

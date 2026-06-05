@@ -10,6 +10,6 @@ start:
     
     SAFE_DIV(result, x, y)
     
-    SMART_PRINT("Результат деления = ", result)
+    SMART_PRINT("Result of division = ", result)
     
     jump start always 0 0
