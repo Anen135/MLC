@@ -1,0 +1,15 @@
+#define SCREEN message1
+
+#define SAFE_DIV(target, a, b) op div target a b
+
+#define SMART_PRINT(text, value) print text \n print value \n printflush SCREEN
+
+start:
+    set x 10
+    set y 2
+    
+    SAFE_DIV(result, x, y)
+    
+    SMART_PRINT("Результат деления = ", result)
+    
+    jump start always 0 0

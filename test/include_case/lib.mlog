@@ -1,2 +1,0 @@
-#include "nested\defs.mlog"
-#define MSG() print TEXT

@@ -1,0 +1,20 @@
+# Пример использование define
+#define DISPLAY message1
+#define BUTTON switch1
+#define MAX_ITEMS 100
+
+#define PANIC print "CRITICAL_ERROR"
+
+main_loop:
+    sensor items DISPLAY @totalItems
+    jump panic_mode greaterThan items MAX_ITEMS
+    
+    print "Все стабильно"
+    printflush DISPLAY
+    jump main_loop always 0 0
+
+panic_mode:
+    PANIC
+    printflush DISPLAY
+    control BUTTON 0
+    end

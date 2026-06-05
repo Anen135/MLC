@@ -1,0 +1,26 @@
+main_loop:
+    sensor s1 switch1 @enabled
+    sensor s2 switch2 @enabled
+    
+    jump first_button equal s1 1
+    jump second_button     equal s2 1
+    
+    print "Система готова.\nНажмите любую кнопку."
+    jump Clear always 0 0
+
+first_button:
+    jump both equal s2 1
+    print "Нажата кнопка [ 1 ]"
+    jump Clear always 0 0
+
+second_button:
+    print "Нажата кнопка [ 2 ]"
+    jump Clear always 0 0
+
+both:
+    print "ВНИМАНИЕ:\nАктивированы обе кнопки!"
+    jump Clear always 0 0
+
+Clear:
+    printflush message1
+    jump main_loop always 0 0

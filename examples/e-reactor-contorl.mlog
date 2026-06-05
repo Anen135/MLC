@@ -1,0 +1,35 @@
+#define REACTOR reactor1
+#define SCREEN message1
+
+#define CRYO_SAFE_LEVEL 12
+
+#define CHECK_CRYO(target) sensor target REACTOR @cryofluid
+#define SWITCH_REACTOR(state) control enabled REACTOR state 0 0 0
+
+main_loop:
+    CHECK_CRYO(cryo_level)
+    
+    jump emergency_shutdown lessThan cryo_level CRYO_SAFE_LEVEL
+    
+    SWITCH_REACTOR(1)
+    
+    print "=== РЕАКТОР СТАБИЛЕН ===\n"
+    print "Хладагент: "
+    print cryo_level
+    print " ед.\n"
+    print "Статус: РАБОТА"
+    
+    jump display_update always 0 0
+
+emergency_shutdown:
+    SWITCH_REACTOR(0)
+    
+    print "!!! ВНИМАНИЕ !!!\n"
+    print "КРИТИЧЕСКИЙ СБОЙ ОХЛАЖДЕНИЯ!\n"
+    print "Криогенка упала до: "
+    print cryo_level
+    print "\nРЕАКТОР АВАРИЙНО ЗАГЛУШЕН!"
+
+display_update:
+    printflush SCREEN
+    jump main_loop always 0 0

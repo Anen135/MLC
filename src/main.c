@@ -1,10 +1,10 @@
 #include "compiler.h"
-
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <locale.h>
 
-static char *read_file(const char *path) {
+char *read_file(const char *path) {
     FILE *file = fopen(path, "rb");
     if (!file) {
         perror(path);
@@ -43,7 +43,7 @@ static char *read_file(const char *path) {
     return buffer;
 }
 
-static int write_file(const char *path, const char *text) {
+int write_file(const char *path, const char *text) {
     FILE *file = fopen(path, "w");
     if (!file) {
         perror(path);
@@ -58,52 +58,83 @@ static int write_file(const char *path, const char *text) {
 }
 
 int main(int argc, char *argv[]) {
+    int exit_code = 1;
+
+    char *source = NULL;
+    char *compiled_code = NULL;
+    char *result_from_file = NULL;
+    const char **lib_paths = NULL;
+
     setlocale(LC_ALL, "en_US.UTF-8");
+
     if (argc < 3) {
         fprintf(stderr, "Usage: %s <input.mlog> <output.mlog> [library.mlog ...]\n", argv[0]);
-        return 1;
+        goto cleanup;
     }
 
-    char *source = read_file(argv[1]);
-    if (!source) {
-        return 1;
-    }
+    source = read_file(argv[1]);
+    if (!source) goto cleanup;
 
-    printf("--- Исходный код ---\n");
+    printf("--- Source Code ---\n");
     printf("%s", source);
-    if (source[0] != '\0' && source[0] != '\n') {
+
+    if (source[0] != '\0' && source[strlen(source) - 1] != '\n') {
         printf("\n");
     }
 
-    const char **lib_paths = argc > 3 ? (const char **)&argv[3] : NULL;
-    size_t lib_count = argc > 3 ? (size_t)(argc - 3) : 0;
-    char *compiled_code = compile_mlog_file(argv[1], lib_paths, lib_count);
-    if (!compiled_code) {
-        free(source);
-        return 1;
+    static const char *default_libs[] = {
+        "./libs/math.mlog",
+        "./libs/display.mlog"
+    };
+
+    size_t default_count =
+        sizeof(default_libs) / sizeof(default_libs[0]);
+
+    size_t user_count =
+        argc > 3 ? (size_t)(argc - 3) : 0;
+
+    size_t lib_count = default_count + user_count;
+
+    lib_paths = malloc(lib_count * sizeof(*lib_paths));
+    if (!lib_paths) {
+        fprintf(stderr, "out of memory\n");
+        goto cleanup;
     }
 
-    printf("--- Результат компиляции ---\n");
+    memcpy(lib_paths, default_libs, default_count * sizeof(*lib_paths));
+
+    if (user_count > 0) {
+        memcpy(lib_paths + default_count, argv + 3, user_count * sizeof(*lib_paths));
+    }
+
+    compiled_code = compile_mlog_file(argv[1], lib_paths, lib_count);
+
+    if (!compiled_code) {
+        goto cleanup;
+    }
+
+    printf("\n--- Compiled Code ---\n");
     printf("%s\n", compiled_code);
 
     if (!write_file(argv[2], compiled_code)) {
-        free(compiled_code);
-        free(source);
-        return 1;
+        goto cleanup;
     }
 
-    char *result_from_file = read_file(argv[2]);
+    result_from_file = read_file(argv[2]);
     if (!result_from_file) {
-        free(compiled_code);
-        free(source);
-        return 1;
+        goto cleanup;
     }
 
-    printf("\n--- Проверка записанного файла ---\n");
+    printf("\n--- Output File ---\n");
     printf("%s\n", result_from_file);
 
+    exit_code = 0;
+
+cleanup:
+    free(lib_paths);
     free(result_from_file);
     free(compiled_code);
     free(source);
-    return 0;
+
+    return exit_code;
 }

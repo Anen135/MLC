@@ -1,0 +1,28 @@
+#define SOURCE core1
+#define SCREEN message1
+
+#define COMPONENT_A @copper
+#define COMPONENT_B @lead
+
+#define CALC_SUM op add
+
+start:
+    sensor val_a SOURCE COMPONENT_A
+    sensor val_b SOURCE COMPONENT_B
+    
+    CALC_SUM result val_a val_b
+    
+    print "=== СУММАТОР ===\n"
+    print "Компонент A: "
+    print val_a
+    print "\n"
+    
+    print "Компонент B: "
+    print val_b
+    print "\n----------------\n"
+    
+    print "Итого: "
+    print result
+    
+    printflush SCREEN
+    jump start always 0 0

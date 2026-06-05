@@ -1,0 +1,2 @@
+#define MULTIPLY(a, b) op mul rax a b
+#define INCR(x) op add x x 1

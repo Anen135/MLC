@@ -1,5 +1,0 @@
-#include "lib.mlog"
-#include "lib.mlog"
-start:
-MSG()
-jump start always
