@@ -49,8 +49,12 @@ Directory: .\test\libs\
 
 Mode                 Length Name
 ----                 ------ ----
--a---                    83 display.mlog
+-a---                    83 ctrl.mlog
+-a---                    67 disp.mlog
+-a---                    67 logc.mlog
 -a---                    67 math.mlog
+-a---                    67 sens.mlog
+-a---                    67 sys.mlog
 
 ```
 
