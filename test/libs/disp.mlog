@@ -9,9 +9,6 @@
 # Print Macros
 # ------------------------------------------------------------------------
 
-# Print text to display
-#define prt(t) print t
-
 # Print text with newline
 #define prtl(t) print t \n print "\n"
 
@@ -42,6 +39,3 @@
 
 # Draw rectangle
 #define drrect(x, y, w, h) draw rect x y w h 0 0
-
-# Flush draw buffer
-#define drflsh(d) drawflush d

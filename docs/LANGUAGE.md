@@ -124,58 +124,58 @@ jump <target> <condition> <value1> <value2>
 
 ### 4.1 Display Module (`disp.mlog`)
 
-| Macro | Description |
-|------|-------------|
-| `prt(t)` | Print text to buffer |
-| `prtl(t)` | Print text with newline |
-| `nl()` | Print newline |
-| `flsh(s)` | Flush buffer to display |
-| `scrw(s, t)` | Write and flush |
-| `drclr(r, g, b)` | Clear drawing |
-| `drcol(r, g, b, a)` | Set draw color |
-| `drrect(x, y, w, h)` | Draw rectangle |
-| `drflsh(d)` | Flush drawing |
+| Macro | Description | Expands To |
+|------|-------------|------------|
+| `prt(t)` | Print text to buffer | `print t` |
+| `prtl(t)` | Print text with newline | `print t` `print "\n"` |
+| `nl()` | Print newline | `print "\n"` |
+| `flsh(s)` | Flush buffer to display | `printflush s` |
+| `scrw(s, t)` | Write and flush | `print t` `printflush s` |
+| `drclr(r, g, b)` | Clear drawing | `draw clear r g b 0 0 0` |
+| `drcol(r, g, b, a)` | Set draw color | `draw color r g b a 0 0` |
+| `drrect(x, y, w, h)` | Draw rectangle | `draw rect x y w h 0 0` |
+| `drflsh(d)` | Flush drawing | `drawflush d` |
 
 ### 4.2 Sensor Module (`sens.mlog`)
 
-| Macro | Description |
-|------|-------------|
-| `sn_tot(r, b)` | Get total items |
-| `sn_item(r, b, i)` | Get specific item |
-| `sn_liq(r, b)` | Get total liquids |
-| `sn_cap(r, b)` | Get capacity |
-| `sn_heat(r, b)` | Get heat level |
-| `sn_on(r, b)` | Get enabled state |
-| `sn_hp(r, b)` | Get health |
-| `rdr_any(r, b)` | Find any enemy |
-| `rdr_air(r, b)` | Find flying enemy |
-| `rdr_gnd(r, b)` | Find ground enemy |
+| Macro | Description | Expands To |
+|------|-------------|------------|
+| `sn_tot(r, b)` | Get total items | `sensor r b @totalItems` |
+| `sn_item(r, b, i)` | Get specific item | `sensor r b i` |
+| `sn_liq(r, b)` | Get total liquids | `sensor r b @totalLiquids` |
+| `sn_cap(r, b)` | Get capacity | `sensor r b @itemCapacity` |
+| `sn_heat(r, b)` | Get heat level | `sensor r b @heat` |
+| `sn_on(r, b)` | Get enabled state | `sensor r b @enabled` |
+| `sn_hp(r, b)` | Get health | `sensor r b @health` |
+| `rdr_any(r, b)` | Find any enemy | `radar enemy any any distance b 1 r` |
+| `rdr_air(r, b)` | Find flying enemy | `radar enemy flying any distance b 1 r` |
+| `rdr_gnd(r, b)` | Find ground enemy | `radar enemy ground any distance b 1 r` |
 
 ### 4.3 Control Module (`ctrl.mlog`)
 
-| Macro | Description |
-|------|-------------|
-| `enbl(b)` | Enable block |
-| `dsbl(b)` | Disable block |
-| `cstat(b, s)` | Set enabled state |
-| `sh_pos(b, x, y)` | Shoot at position |
-| `sh_tgt(b, t)` | Shoot at target |
-| `sh_idle(b)` | Stop shooting |
-| `cfg(b, c)` | Configure block |
+| Macro | Description | Expands To |
+|------|-------------|------------|
+| `enbl(b)` | Enable block | `control enabled b 1 0 0 0` |
+| `dsbl(b)` | Disable block | `control enabled b 0 0 0 0` |
+| `cstat(b, s)` | Set enabled state | `control enabled b s 0 0 0` |
+| `sh_pos(b, x, y)` | Shoot at position | `control shoot b x y 1 0` |
+| `sh_tgt(b, t)` | Shoot at target | `sensor _t_x t @x` `sensor _t_y t @y` `control shoot b _t_x _t_y 1 0` |
+| `sh_idle(b)` | Stop shooting | `control shoot b 0 0 0 0` |
+| `cfg(b, c)` | Configure block | `control config b c 0 0 0` |
 
 ### 4.4 Logic Module (`logc.mlog`)
 
-| Macro | Description |
-|------|-------------|
-| `jmpif(l, op, a, b)` | Conditional jump |
-| `jmpe(l, a, b)` | Jump if equal |
-| `jmpne(l, a, b)` | Jump if not equal |
-| `jmp(l)` | Unconditional jump |
-| `isFull(r, b)` | Check if full |
-| `isEmpty(r, b)` | Check if empty |
-| `land(r, a, b)` | Logical AND |
-| `lor(r, a, b)` | Logical OR |
-| `lnot(r, a)` | Logical NOT |
+| Macro | Description | Expands To |
+|------|-------------|------------|
+| `jmpif(l, op, a, b)` | Conditional jump | `jump l op a b` |
+| `jmpe(l, a, b)` | Jump if equal | `jump l equal a b` |
+| `jmpne(l, a, b)` | Jump if not equal | `jump l notEqual a b` |
+| `jmp(l)` | Unconditional jump | `jump l always 0 0` |
+| `isFull(r, b)` | Check if full | `sensor _t_t b @totalItems` `sensor _t_c b @itemCapacity` `op greaterThanEq r _t_t _t_c` |
+| `isEmpty(r, b)` | Check if empty | `sensor _t_t b @totalItems` `op equal r _t_t 0` |
+| `land(r, a, b)` | Logical AND | `op land r a b` |
+| `lor(r, a, b)` | Logical OR | `op or r a b` |
+| `lnot(r, a)` | Logical NOT | `op equal r a 0` |
 
 ---
 
