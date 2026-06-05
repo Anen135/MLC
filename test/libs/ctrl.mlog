@@ -1,0 +1,41 @@
+# =================================================================
+# HARDWARE CONTROL MODULE
+# =================================================================
+# File: ctrl.mlog
+# Description: Macros for controlling hardware blocks (reactors, processors, etc.)
+# =================================================================
+
+# ------------------------------------------------------------------------
+# Enable / Disable Macros
+# ------------------------------------------------------------------------
+
+# Enable a hardware block
+#define enbl(b) control enabled b 1 0 0 0
+
+# Disable a hardware block
+#define dsbl(b) control enabled b 0 0 0 0
+
+# Set hardware block state (enabled/disabled)
+#define cstat(b, s) control enabled b s 0 0 0
+
+
+# ------------------------------------------------------------------------
+# Shooting Macros
+# ------------------------------------------------------------------------
+
+# Shoot at absolute position
+#define sh_pos(b, x, y) control shoot b x y 1 0
+
+# Shoot at target position (from sensor data)
+#define sh_tgt(b, t) sensor _t_x t @x \n sensor _t_y t @y \n control shoot b _t_x _t_y 1 0
+
+# Stop shooting (idle state)
+#define sh_idle(b) control shoot b 0 0 0 0
+
+
+# ------------------------------------------------------------------------
+# Configuration Macros
+# ------------------------------------------------------------------------
+
+# Configure a hardware block with specific config value
+#define cfg(b, c) control config b c 0 0 0

@@ -29,7 +29,7 @@ The repository comes with a precompiled `MLC.exe` binary. If you wish to build t
 Currently, there is no precompiled binary or automated build script for Linux. Linux users must compile the source code from the `src/` directory manually using `g++` or `clang++`:
 
 ```bash
-g++ -O3 src/*.cpp -o MLC
+gcc -O3 src/*.c -o MLC
 
 ```
 

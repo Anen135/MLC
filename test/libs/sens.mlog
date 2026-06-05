@@ -1,0 +1,50 @@
+# =================================================================
+# SENSOR & RADAR MODULE
+# =================================================================
+# File: sens.mlog
+# Description: Macros for reading sensor data and radar operations
+# =================================================================
+
+# ------------------------------------------------------------------------
+# Basic Sensor Macros
+# ------------------------------------------------------------------------
+
+# Get total items in container
+#define sn_tot(r, b) sensor r b @totalItems
+
+# Get specific item count
+#define sn_item(r, b, i) sensor r b i
+
+# Get total liquids in tank
+#define sn_liq(r, b) sensor r b @totalLiquids
+
+# Get container capacity
+#define sn_cap(r, b) sensor r b @itemCapacity
+
+
+# ------------------------------------------------------------------------
+# Block Status Macros
+# ------------------------------------------------------------------------
+
+# Get heat level
+#define sn_heat(r, b) sensor r b @heat
+
+# Get enabled state
+#define sn_on(r, b) sensor r b @enabled
+
+# Get health value
+#define sn_hp(r, b) sensor r b @health
+
+
+# ------------------------------------------------------------------------
+# Radar Macros
+# ------------------------------------------------------------------------
+
+# Radar: find any enemy
+#define rdr_any(r, b) radar enemy any any distance b 1 r
+
+# Radar: find flying enemy
+#define rdr_air(r, b) radar enemy flying any distance b 1 r
+
+# Radar: find ground enemy
+#define rdr_gnd(r, b) radar enemy ground any distance b 1 r

@@ -1,0 +1,47 @@
+# =================================================================
+# DISPLAY & GRAPHICS MODULE
+# =================================================================
+# File: disp.mlog
+# Description: Macros for display output and 2D drawing operations
+# =================================================================
+
+# ------------------------------------------------------------------------
+# Print Macros
+# ------------------------------------------------------------------------
+
+# Print text to display
+#define prt(t) print t
+
+# Print text with newline
+#define prtl(t) print t \n print "\n"
+
+# Print newline
+#define nl() print "\n"
+
+
+# ------------------------------------------------------------------------
+# Flush & Screen Macros
+# ------------------------------------------------------------------------
+
+# Flush display buffer
+#define flsh(s) printflush s
+
+# Write text and flush to display
+#define scrw(s, t) print t \n printflush s
+
+
+# ------------------------------------------------------------------------
+# Drawing Macros
+# ------------------------------------------------------------------------
+
+# Clear display with color
+#define drclr(r, g, b) draw clear r g b 0 0 0
+
+# Set draw color
+#define drcol(r, g, b, a) draw color r g b a 0 0
+
+# Draw rectangle
+#define drrect(x, y, w, h) draw rect x y w h 0 0
+
+# Flush draw buffer
+#define drflsh(d) drawflush d

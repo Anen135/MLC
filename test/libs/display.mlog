@@ -1,2 +1,0 @@
-#define LOG_SCREEN message1
-#define RENDER(val) print val \n printflush LOG_SCREEN

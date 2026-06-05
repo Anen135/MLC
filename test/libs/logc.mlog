@@ -1,0 +1,47 @@
+# =================================================================
+# LOGIC & CONTROL FLOW MODULE
+# =================================================================
+# File: logc.mlog
+# Description: Macros for conditional jumps and logical operations
+# =================================================================
+
+# ------------------------------------------------------------------------
+# Jump Macros
+# ------------------------------------------------------------------------
+
+# Conditional jump (op: equal, notEqual, greater, less, etc.)
+#define jmpif(l, op, a, b) jump l op a b
+
+# Jump if equal
+#define jmpe(l, a, b) jump l equal a b
+
+# Jump if not equal
+#define jmpne(l, a, b) jump l notEqual a b
+
+# Unconditional jump
+#define jmp(l) jump l always 0 0
+
+
+# ------------------------------------------------------------------------
+# Container Status Macros
+# ------------------------------------------------------------------------
+
+# Check if container is full
+#define isFull(r, b) sensor _t_t b @totalItems \n sensor _t_c b @itemCapacity \n op greaterThanEq r _t_t _t_c
+
+# Check if container is empty
+#define isEmpty(r, b) sensor _t_t b @totalItems \n op equal r _t_t 0
+
+
+# ------------------------------------------------------------------------
+# Logical Operations
+# ------------------------------------------------------------------------
+
+# Logical AND
+#define land(r, a, b) op land r a b
+
+# Logical OR
+#define lor(r, a, b) op or r a b
+
+# Logical NOT
+#define lnot(r, a) op equal r a 0
