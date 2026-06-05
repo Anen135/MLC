@@ -1,0 +1,13 @@
+#define inc(x) op add x x 1
+#define dec(x) op sub x x 1
+#define mod(r, a, b) op mod r a b
+#define pow(r, a, b) op pow r a b
+#define sqrt(r, x) op sqrt r x 0
+
+#define min(r, a, b) op min r a b
+#define max(r, a, b) op max r a b
+#define abs(r, x) op abs r x 0
+#define clmp(r, v, n, m) op max r v n \n op min r r m
+
+#define dist(r, x, y) op len r x y
+#define pct(r, c, m) op div r c m \n op mul r r 100

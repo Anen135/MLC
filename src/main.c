@@ -84,7 +84,8 @@ int main(int argc, char *argv[]) {
 
     static const char *default_libs[] = {
         "./libs/math.mlog",
-        "./libs/display.mlog"
+        "./libs/disp.mlog",
+        "./libs/logc.mlog",
     };
 
     size_t default_count =

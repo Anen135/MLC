@@ -1,6 +1,22 @@
-set x 5
-op add x x 1
-op mul rax x 2
-print rax
+sensor cryo_level reactor1 @cryofluid
+jump 11 lessThan cryo_level 12
+control enabled reactor1 1 0 0 0
+print "=== РЕАКТОР СТАБИЛЕН ===
+"
+print "Хладагент: "
+print cryo_level
+print " ед.
+"
+print "Статус: РАБОТА"
+jump 20 always 0 0
+control enabled reactor1 0 0 0 0
+print "!!! ВНИМАНИЕ !!!
+"
+print "КРИТИЧЕСКИЙ СБОЙ ОХЛАЖДЕНИЯ!
+"
+print "Криогенка упала до: "
+print cryo_level
+print "
+РЕАКТОР АВАРИЙНО ЗАГЛУШЕН!"
 printflush message1
 jump 0 always 0 0
